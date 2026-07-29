@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BlackfoxAI — Real-Time AI Interview Assistant</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#16a34a',
+            'primary-dark': '#15803d',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; }
+    .hero-gradient { background: linear-gradient(180deg, #f0fdf4 0%, #f8faf5 40%, #ffffff 100%); }
+    .green-card { background: linear-gradient(135deg, #166534 0%, #15803d 50%, #16a34a 100%); }
+  </style>
+</head>
+<body class="bg-[#f8faf5] text-slate-900">
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2 font-bold text-lg">
+        <span class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-sm">🦊</span>
+        Blackfox<span class="text-primary">AI</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+        <a href="#features" class="hover:text-primary">Features</a>
+        <a href="#reviews" class="hover:text-primary">Reviews</a>
+        <a href="#privacy" class="hover:text-primary">Privacy</a>
+        <a href="#pricing" class="hover:text-primary">Pricing</a>
+      </nav>
+      <a href="#pricing" class="hidden md:inline-flex items-center gap-1.5 bg-primary hover:bg-primary-dark text-white text-sm font-semibold px-4 py-2 rounded-full">
+        Get Started →
+      </a>
+    </div>
+  </header>
+
+  <section class="hero-gradient pt-12 pb-20 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-center mb-10">
+        <div class="inline-flex bg-white rounded-full p-1 shadow-sm border border-slate-200">
+          <button class="px-5 py-1.5 rounded-full text-sm font-semibold bg-primary text-white">Non-Coding</button>
+          <button class="px-5 py-1.5 rounded-full text-sm font-medium text-slate-600">Coding</button>
+        </div>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="text-center lg:text-left">
+          <div class="inline-flex items-center gap-2 bg-green-50 text-green-700 text-xs font-semibold px-3 py-1 rounded-full mb-4 border border-green-100">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+            FULL CODING INTERVIEW SUPPORT
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight mb-4">
+            Your Real-Time <span class="text-primary">AI Interview Assistant</span>
+          </h1>
+          <p class="text-slate-600 text-lg max-w-lg mx-auto lg:mx-0 mb-8">
+            Automatically get an answer to every interview question with ChatGPT AI software. An AI interview copilot. Real-time and private.
+          </p>
+          <div class="flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start mb-6">
+            <a href="#pricing" class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white font-semibold px-6 py-3 rounded-full shadow-lg shadow-green-200/60">
+              Dashboard →
+            </a>
+            <span class="text-sm text-slate-500">Or subscription/lifetime</span>
+          </div>
+          <div class="flex items-center gap-3 justify-center lg:justify-start text-sm text-slate-500">
+            <div class="flex -space-x-2">
+              <div class="w-8 h-8 rounded-full bg-green-400 border-2 border-white"></div>
+              <div class="w-8 h-8 rounded-full bg-green-500 border-2 border-white"></div>
+              <div class="w-8 h-8 rounded-full bg-green-600 border-2 border-white"></div>
+            </div>
+            <span>⭐⭐⭐⭐⭐ Used by <strong class="text-slate-800">1,534,135+</strong> people</span>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+          <div class="flex items-center gap-2 px-4 py-2.5 bg-slate-50 border-b">
+            <span class="w-3 h-3 rounded-full bg-red-400"></span>
+            <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+            <span class="w-3 h-3 rounded-full bg-green-400"></span>
+            <span class="text-xs text-slate-400 ml-2">BlackfoxAI demo</span>
+          </div>
+          <div class="grid sm:grid-cols-2">
+            <div class="bg-slate-900 aspect-video flex items-center justify-center text-white/80 text-sm">▶ Demo video</div>
+            <div class="p-4 space-y-3 bg-slate-50">
+              <div class="bg-white rounded-lg p-3 shadow-sm border text-xs">
+                <p class="text-slate-500 mb-1 font-medium">Interviewer</p>
+                <p>What are the three highest mountains in Africa?</p>
+              </div>
+              <div class="bg-green-50 rounded-lg p-3 border border-green-100 text-xs">
+                <p class="text-green-700 mb-1 font-medium">● BlackfoxAI</p>
+                <p>1. Mount Kilimanjaro (5,895 m)<br>2. Mount Kenya (5,199 m)<br>3. Mount Stanley (5,109 m)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-10 px-4 border-y border-slate-200 bg-white text-center">
+    <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Verified by SimilarWeb</p>
+    <h2 class="text-2xl sm:text-3xl font-bold">#1 Interview Assistant on the market</h2>
+    <p class="text-slate-500 mt-1 text-sm">Based on the number of website visits</p>
+  </section>
+
+  <section id="features" class="py-16 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="green-card rounded-3xl p-8 sm:p-12 text-white">
+        <div class="grid lg:grid-cols-2 gap-10 items-center">
+          <div>
+            <h2 class="text-3xl sm:text-4xl font-bold mb-4">Works with any interview platform</h2>
+            <p class="text-green-100 text-lg mb-6">Zoom, Google Meet, Microsoft Teams, HackerRank, LeetCode, and more.</p>
+            <a href="#" class="inline-flex items-center gap-2 bg-white text-green-800 font-semibold px-5 py-2.5 rounded-full text-sm">▶ Video tutorial</a>
+          </div>
+          <div class="grid grid-cols-3 gap-3">
+            <div class="bg-white/10 rounded-xl p-4 text-center border border-white/10"><div class="w-10 h-10 bg-blue-500 rounded-lg mx-auto mb-2 flex items-center justify-center font-bold">Z</div><span class="text-xs">Zoom</span></div>
+            <div class="bg-white/10 rounded-xl p-4 text-center border border-white/10"><div class="w-10 h-10 bg-green-500 rounded-lg mx-auto mb-2 flex items-center justify-center font-bold">G</div><span class="text-xs">Meet</span></div>
+            <div class="bg-white/10 rounded-xl p-4 text-center border border-white/10"><div class="w-10 h-10 bg-indigo-500 rounded-lg mx-auto mb-2 flex items-center justify-center font-bold">T</div><span class="text-xs">Teams</span></div>
+            <div class="bg-white/10 rounded-xl p-4 text-center border border-white/10"><div class="w-10 h-10 bg-orange-500 rounded-lg mx-auto mb-2 flex items-center justify-center font-bold">L</div><span class="text-xs">LeetCode</span></div>
+            <div class="bg-white/10 rounded-xl p-4 text-center border border-white/10"><div class="w-10 h-10 bg-emerald-600 rounded-lg mx-auto mb-2 flex items-center justify-center font-bold">H</div><span class="text-xs">HackerRank</span></div>
+            <div class="bg-white/10 rounded-xl p-4 text-center border border-white/10"><div class="w-10 h-10 bg-purple-500 rounded-lg mx-auto mb-2 flex items-center justify-center font-bold">C</div><span class="text-xs">CoderPad</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-8 px-4">
+    <div class="max-w-6xl mx-auto space-y-6">
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 grid md:grid-cols-2 gap-8 items-center">
+        <div>
+          <span class="inline-block text-xs font-bold uppercase tracking-wider text-primary bg-green-50 px-2.5 py-1 rounded-md mb-3">Programming</span>
+          <h3 class="text-2xl font-bold mb-3">Full Coding Interview Support</h3>
+          <p class="text-slate-600 mb-4">Listen for coding questions and capture the screen if a LeetCode-style question is shared.</p>
+        </div>
+        <div class="bg-slate-900 rounded-xl p-4 font-mono text-xs text-green-400 overflow-x-auto">
+<pre>function generatePrimeNumbers(n) {
+  const primes = [];
+  for (let i = 2; primes.length &lt; n; i++) {
+    if (isPrime(i)) primes.push(i);
+  }
+  return primes;
+}</pre>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+          <span class="inline-block text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md mb-3">Speech Recognition</span>
+          <h3 class="text-xl font-bold mb-2">Blazing Fast Transcription</h3>
+          <p class="text-slate-600 text-sm">State-of-the-art transcription model with record-breaking speed.</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+          <span class="inline-block text-xs font-bold uppercase tracking-wider text-violet-600 bg-violet-50 px-2.5 py-1 rounded-md mb-3">AI Answers</span>
+          <h3 class="text-xl font-bold mb-2">100% Accurate Responses</h3>
+          <p class="text-slate-600 text-sm">Choose GPT-5, GPT-4o or Claude 4.0 Sonnet for the most accurate answers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews" class="py-16 px-4 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-10">People love BlackfoxAI 💚</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-slate-50 rounded-2xl border border-slate-200 p-5">
+          <p class="font-semibold text-sm mb-1">Avi W</p>
+          <p class="text-sm text-slate-700 mb-3">BlackfoxAI is legitimately in its golden age of entrepreneurship.</p>
+          <p class="text-xs text-slate-400">2 months ago</p>
+        </div>
+        <div class="bg-slate-50 rounded-2xl border border-slate-200 p-5">
+          <p class="font-semibold text-sm mb-1">Jane D.</p>
+          <p class="text-sm text-slate-700 mb-3">If I'm honest, there were absolutely zero faults. It is really a game changer.</p>
+          <p class="text-xs text-slate-400">Jan 17, 2025</p>
+        </div>
+        <div class="bg-slate-50 rounded-2xl border border-slate-200 p-5">
+          <p class="font-semibold text-sm mb-1">Jure S</p>
+          <p class="text-sm text-slate-700 mb-3">BlackfoxAI gives you super fast transcriptions and spot on AI answers!</p>
+          <p class="text-xs text-slate-400">Feb 14, 2025</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="privacy" class="py-16 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="green-card rounded-3xl p-8 sm:p-10 text-white mb-10">
+        <h2 class="text-3xl font-bold mb-3">100% Private and Undetectable</h2>
+        <p class="text-green-100 mb-6">Invisible on Screen Share · Invisible in Dock · Invisible in Task Switching · Cursor Undetectability</p>
+        <a href="#" class="inline-flex items-center gap-2 bg-white text-green-800 font-semibold px-5 py-2.5 rounded-full text-sm">▶ Privacy Video</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="py-20 px-4 bg-gradient-to-b from-white to-green-50">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-2">Buy credits or Go unlimited</h2>
+      <p class="text-slate-500 mb-10">Refund Policy · Unlimited Calls · Cancel Anytime</p>
+      <div class="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 text-left shadow-sm">
+          <p class="text-sm font-medium text-slate-500 mb-1">Monthly</p>
+          <p class="text-4xl font-extrabold mb-4">₹9,470<span class="text-base font-normal text-slate-400">/mo</span></p>
+          <ul class="space-y-2 mb-6 text-sm text-slate-600">
+            <li>✓ Unlimited Calls</li>
+            <li>✓ All AI models</li>
+            <li>✓ Desktop + Mobile</li>
+          </ul>
+          <a href="#" class="block w-full text-center bg-slate-900 text-white font-semibold py-2.5 rounded-full">Subscribe</a>
+        </div>
+        <div class="bg-white rounded-2xl border-2 border-primary p-6 text-left shadow-lg relative">
+          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-bold px-3 py-0.5 rounded-full">Best Value</span>
+          <p class="text-sm font-medium text-slate-500 mb-1">Yearly</p>
+          <p class="text-4xl font-extrabold mb-1">₹57,300<span class="text-base font-normal text-slate-400">/yr</span></p>
+          <p class="text-xs text-green-600 font-medium mb-4">Unlimited Calls · Save 50%</p>
+          <ul class="space-y-2 mb-6 text-sm text-slate-600">
+            <li>✓ Unlimited Calls</li>
+            <li>✓ All AI models</li>
+            <li>✓ Priority support</li>
+            <li>✓ Desktop + Mobile</li>
+          </ul>
+          <a href="#" class="block w-full text-center bg-primary text-white font-semibold py-2.5 rounded-full">Subscribe</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-4 bg-white">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-10">Frequently Asked Questions</h2>
+      <div class="space-y-2">
+        <details class="border border-slate-200 rounded-xl overflow-hidden" open>
+          <summary class="px-5 py-4 text-sm font-medium cursor-pointer hover:bg-slate-50">What languages does BlackfoxAI support?</summary>
+          <div class="px-5 pb-4 text-sm text-slate-600">BlackfoxAI supports a wide range of languages. Check the dashboard for the full list.</div>
+        </details>
+        <details class="border border-slate-200 rounded-xl overflow-hidden">
+          <summary class="px-5 py-4 text-sm font-medium cursor-pointer hover:bg-slate-50">Does BlackfoxAI support coding calls?</summary>
+          <div class="px-5 pb-4 text-sm text-slate-600">Yes — full coding interview support including screen capture for LeetCode-style questions.</div>
+        </details>
+        <details class="border border-slate-200 rounded-xl overflow-hidden">
+          <summary class="px-5 py-4 text-sm font-medium cursor-pointer hover:bg-slate-50">Does BlackfoxAI have a mobile app?</summary>
+          <div class="px-5 pb-4 text-sm text-slate-600">Yes, mobile versions are available for both iOS and Android.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-slate-900 text-slate-300 pt-16 pb-8 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-12">
+        <div class="flex items-center gap-2">
+          <span class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white">🦊</span>
+          <div>
+            <p class="font-bold text-white text-lg">BlackfoxAI</p>
+            <p class="text-xs text-slate-400">Have a question? Let's chat!</p>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <a href="#" class="hover:text-white">Privacy Policy</a>
+          <a href="#" class="hover:text-white">Terms</a>
+          <a href="#" class="hover:text-white">Support</a>
+          <a href="#" class="hover:text-white">Refund Policy</a>
+        </div>
+      </div>
+      <div class="border-t border-slate-800 pt-6 text-xs text-slate-500 text-center sm:text-left">
+        © BlackfoxAI 2025. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
