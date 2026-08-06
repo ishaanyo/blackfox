@@ -43,3 +43,18 @@ npm run dev
 
 Your existing `transcripts` table is mapped via `@@map("transcripts")`.  
 `prisma db push` will add User, Account, CallSession, etc. without dropping transcript rows if names align. Review the Prisma schema before pushing to production.
+
+## Desktop chat proxy (security)
+
+Desktop never holds `AICREDITS_API_KEY`. Logged-in desktop clients call:
+
+| Method | Path | Auth | Description |
+|--------|------|------|-------------|
+| POST | `/api/chat` | Bearer desktop-token (or session cookie) | Proxies to AICredits; optionally saves transcripts |
+
+Set on the **website** host (Vercel env):
+
+- `AICREDITS_API_KEY` — required for chat
+- `AICREDITS_BASE` — optional, default `https://api.aicredits.in/v1`
+- `DEFAULT_CHAT_MODEL` — optional
+- `NEXTAUTH_SECRET` — already required (also signs desktop tokens)
