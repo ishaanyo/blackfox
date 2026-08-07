@@ -40,20 +40,37 @@ function languageDisplayName(code: string): string {
   return map[code.trim().toLowerCase()] || "English";
 }
 
+async function saveTranscripts(
+  sessionId: string | null,
+  shouldSave: boolean,
+  userMessage: string,
+  reply: string
+) {
+  if (!sessionId || !shouldSave) return;
+  try {
+    await prisma.callTranscript.createMany({
+      data: [
+        { sessionId, role: "user", content: userMessage },
+        { sessionId, role: "assistant", content: reply || "(empty)" },
+      ],
+    });
+  } catch (e) {
+    console.error("Failed to save transcripts:", e);
+  }
+}
+
 /**
  * POST /api/chat
- * Desktop (and web) chat proxy — AICREDITS_API_KEY stays on the server.
- *
- * Auth: NextAuth session cookie OR Authorization: Bearer <desktop-token>
  *
  * Body:
  * {
- *   message: string;                 // latest user message (required)
- *   messages?: { role, content }[];  // prior history (optional; server will append message)
+ *   message: string;
+ *   messages?: { role, content }[];
  *   model?: string;
- *   language?: string;               // ISO code, e.g. "en"
- *   sessionId?: string;              // CallSession id — used to own-check + save transcripts
+ *   language?: string;
+ *   sessionId?: string;
  *   saveTranscript?: boolean;
+ *   stream?: boolean;   // SSE when true
  * }
  */
 export async function POST(req: Request) {
@@ -80,6 +97,7 @@ export async function POST(req: Request) {
       language = "en",
       sessionId,
       saveTranscript = true,
+      stream = false,
     } = body as {
       message?: string;
       messages?: ChatMessage[];
@@ -87,6 +105,7 @@ export async function POST(req: Request) {
       language?: string;
       sessionId?: string;
       saveTranscript?: boolean;
+      stream?: boolean;
     };
 
     if (!message || typeof message !== "string" || !message.trim()) {
@@ -96,19 +115,17 @@ export async function POST(req: Request) {
       );
     }
 
-    // Optional: verify session belongs to this user
     let ownedSessionId: string | null = null;
     let shouldSave = Boolean(saveTranscript);
     if (sessionId && typeof sessionId === "string" && sessionId.trim()) {
       const callSession = await prisma.callSession.findFirst({
         where: { id: sessionId.trim(), userId },
-        select: { id: true, saveTranscript: true, model: true, language: true },
+        select: { id: true, saveTranscript: true },
       });
       if (!callSession) {
         return NextResponse.json({ error: "Session not found" }, { status: 404 });
       }
       ownedSessionId = callSession.id;
-      // Prefer explicit body flag; fall back to session setting
       if (body.saveTranscript === undefined) {
         shouldSave = callSession.saveTranscript;
       }
@@ -136,7 +153,6 @@ export async function POST(req: Request) {
       }
     }
 
-    // Ensure the latest user message is last (desktop may already include it in messages)
     const last = apiMessages[apiMessages.length - 1];
     if (!(last && last.role === "user" && last.content === message.trim())) {
       apiMessages.push({ role: "user", content: message.trim() });
@@ -144,6 +160,8 @@ export async function POST(req: Request) {
 
     const chatModel =
       (typeof model === "string" && model.trim()) || DEFAULT_CHAT_MODEL;
+
+    const wantStream = Boolean(stream);
 
     const aicreditsRes = await fetch(`${AICREDITS_BASE}/chat/completions`, {
       method: "POST",
@@ -156,6 +174,7 @@ export async function POST(req: Request) {
         messages: apiMessages,
         temperature: 0.7,
         max_tokens: 1024,
+        stream: wantStream,
       }),
     });
 
@@ -168,35 +187,82 @@ export async function POST(req: Request) {
       );
     }
 
+    // ── Streaming (SSE) ──
+    if (wantStream && aicreditsRes.body) {
+      const upstream = aicreditsRes.body;
+      const decoder = new TextDecoder();
+      let lineBuf = "";
+      let fullReply = "";
+      const userMsg = message.trim();
+      const sessionForSave = ownedSessionId;
+      const doSave = shouldSave;
+
+      const streamOut = new ReadableStream<Uint8Array>({
+        async start(controller) {
+          const reader = upstream.getReader();
+          const enc = new TextEncoder();
+          try {
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              lineBuf += decoder.decode(value, { stream: true });
+              const lines = lineBuf.split("\n");
+              lineBuf = lines.pop() || "";
+
+              for (const rawLine of lines) {
+                const line = rawLine.trim();
+                if (!line.startsWith("data:")) continue;
+                const payload = line.slice(5).trim();
+                if (payload === "[DONE]") continue;
+                try {
+                  const json = JSON.parse(payload) as {
+                    choices?: { delta?: { content?: string } }[];
+                  };
+                  const delta = json.choices?.[0]?.delta?.content;
+                  if (delta) {
+                    fullReply += delta;
+                    // Re-emit OpenAI-style SSE chunk for desktop
+                    controller.enqueue(
+                      enc.encode(`data: ${JSON.stringify({ content: delta })}\n\n`)
+                    );
+                  }
+                } catch {
+                  // ignore malformed chunk
+                }
+              }
+            }
+            controller.enqueue(enc.encode("data: [DONE]\n\n"));
+            controller.close();
+          } catch (e) {
+            console.error("stream error:", e);
+            try {
+              controller.error(e);
+            } catch {
+              /* already closed */
+            }
+          } finally {
+            await saveTranscripts(sessionForSave, doSave, userMsg, fullReply);
+          }
+        },
+      });
+
+      return new Response(streamOut, {
+        headers: {
+          "Content-Type": "text/event-stream; charset=utf-8",
+          "Cache-Control": "no-cache, no-transform",
+          Connection: "keep-alive",
+          "X-Accel-Buffering": "no",
+        },
+      });
+    }
+
+    // ── Non-streaming JSON ──
     const data = (await aicreditsRes.json()) as {
       choices?: { message?: { content?: string } }[];
     };
-    const reply =
-      data.choices?.[0]?.message?.content?.trim() ||
-      "";
+    const reply = data.choices?.[0]?.message?.content?.trim() || "";
 
-    // Persist transcripts server-side when we have a valid owned session
-    if (ownedSessionId && shouldSave) {
-      try {
-        await prisma.callTranscript.createMany({
-          data: [
-            {
-              sessionId: ownedSessionId,
-              role: "user",
-              content: message.trim(),
-            },
-            {
-              sessionId: ownedSessionId,
-              role: "assistant",
-              content: reply || "(empty)",
-            },
-          ],
-        });
-      } catch (e) {
-        console.error("Failed to save transcripts:", e);
-        // Non-fatal — still return the reply
-      }
-    }
+    await saveTranscripts(ownedSessionId, shouldSave, message.trim(), reply);
 
     return NextResponse.json({ reply, model: chatModel });
   } catch (err) {
