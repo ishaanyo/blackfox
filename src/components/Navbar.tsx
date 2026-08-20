@@ -6,6 +6,9 @@ import { Logo, ArrowRight } from "./Icons";
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const downloadUrl =
+    "https://raw.githubusercontent.com/ishaanyo/blackfox/main/blackfox.exe";
+
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-border">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
@@ -42,6 +45,16 @@ export default function Navbar() {
           >
             Dashboard
           </a>
+
+          {/* Download button */}
+          <a
+            href={downloadUrl}
+            download="blackfoxai.exe"
+            className="inline-flex items-center gap-1.5 border border-slate-300 hover:border-primary text-slate-700 hover:text-primary text-sm font-semibold px-4 py-2 rounded-full transition"
+          >
+            Download
+          </a>
+
           <a
             href="/dashboard"
             className="inline-flex items-center gap-1.5 bg-primary hover:bg-primary-dark text-white text-sm font-semibold px-4 py-2 rounded-full transition shadow-sm shadow-green-200"
@@ -95,6 +108,16 @@ export default function Navbar() {
               </a>
             )
           )}
+
+          <a
+            href={downloadUrl}
+            download="blackfoxai.exe"
+            className="block w-full text-center border border-slate-300 text-slate-700 font-semibold py-2.5 rounded-full"
+            onClick={() => setMobileOpen(false)}
+          >
+            Download App
+          </a>
+
           <a
             href="/dashboard"
             className="block w-full text-center bg-primary text-white font-semibold py-2.5 rounded-full"
